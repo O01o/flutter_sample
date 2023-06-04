@@ -13,6 +13,7 @@ void main(List<String> args) async {
   await outputDirectory.create(recursive: true);
   File outputFile = File("$outputPath/$fileName");
   await outputFile.writeAsString(outputMessage);
+  print(await outputFile.readAsString());
 
   await for (FileSystemEntity entity in outputDirectory.list(recursive: true, followLinks: false)) {
     if (entity is File) {
