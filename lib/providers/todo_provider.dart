@@ -1,10 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter_sample/freezed_entities/todo_object.dart';
+import 'package:flutter_sample/utils/device_io.dart';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
 part 'todo_provider.g.dart';
+
+String savePath = "save-data.json";
 
 @Riverpod(keepAlive: true)
 class TodoMangerNotifier extends _$TodoMangerNotifier {
@@ -14,9 +19,10 @@ class TodoMangerNotifier extends _$TodoMangerNotifier {
    * 既に使用履歴があって、端末保存がされていれば、そこからTodoリスト等を読み込みます。
    * 特に何も保存されていない場合は、中が空のインスタンスを返します。
    */
+  
   @override
   FutureOr<TodoManager> build() async { 
-    TodoManager initTodoManger = TodoManager(
+    TodoManager altTodoManger = TodoManager(
       todoTaskList: [
         TodoTask(
           id: Uuid.NAMESPACE_URL, 
@@ -32,7 +38,15 @@ class TodoMangerNotifier extends _$TodoMangerNotifier {
         ),
       ]
     );
-    return initTodoManger;
+
+    try {
+      TodoManager todoManager = TodoManager.fromJson(jsonDecode(await readSaveData(savePath)));
+      return todoManager;
+    } catch (e) {
+      print(e);
+    }
+
+    return altTodoManger;
   }
 
   /**
@@ -45,6 +59,7 @@ class TodoMangerNotifier extends _$TodoMangerNotifier {
     List<TodoTask> tmpTodoTaskList = tmpTodoManager.todoTaskList;
     tmpTodoTaskList.add(todoTask);
     tmpTodoManager.copyWith(todoTaskList: tmpTodoTaskList);
+    await writeSaveData(savePath, jsonEncode(tmpTodoManager.toJson()));
     state = AsyncValue.data(tmpTodoManager);
   }
 
@@ -53,6 +68,7 @@ class TodoMangerNotifier extends _$TodoMangerNotifier {
     List<TodoTask> tmpTodoTaskList = tmpTodoManager.todoTaskList;
     tmpTodoTaskList[index] = todoTask;
     tmpTodoManager.copyWith(todoTaskList: tmpTodoTaskList);
+    await writeSaveData(savePath, jsonEncode(tmpTodoManager.toJson()));
     state = AsyncValue.data(tmpTodoManager);
   }
 
@@ -65,6 +81,7 @@ class TodoMangerNotifier extends _$TodoMangerNotifier {
       i++;
     }
     tmpTodoManager.copyWith(todoTaskList: tmpTodoTaskList);
+    await writeSaveData(savePath, jsonEncode(tmpTodoManager.toJson()));
     state = AsyncValue.data(tmpTodoManager);
   }
 }
