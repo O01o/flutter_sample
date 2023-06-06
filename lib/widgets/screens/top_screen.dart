@@ -26,7 +26,8 @@ class TopScreen extends HookConsumerWidget {
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) => TodoTaskElement(
-                        todoTask: snapshot.data!.todoTaskList[index]
+                        todoTask: snapshot.data!.todoTaskList[index], 
+                        index: index
                       ),
                       childCount: snapshot.data!.todoTaskList.length,
                     ),

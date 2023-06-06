@@ -7,12 +7,13 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_sample/freezed_entities/todo_object.dart';
 
 import 'package:flutter_sample/providers/todo_provider.dart';
-import 'package:flutter_sample/widgets/dialogs/add_task_dialog.dart';
+import 'package:flutter_sample/widgets/dialogs/delete_task_dialog.dart';
 
 class TodoTaskElement extends HookConsumerWidget {
-  const TodoTaskElement({Key? key, required this.todoTask}) : super(key: key);
+  const TodoTaskElement({Key? key, required this.todoTask, required this.index}) : super(key: key);
 
   final TodoTask todoTask;
+  final int index;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,7 +37,7 @@ class TodoTaskElement extends HookConsumerWidget {
         onLongPress: () {
           showDialog(
             context: context, builder: (_) {
-              return AddTodoTaskDialog(todoTask: todoTask);
+              return DeleteTodoTaskDialog(todoTask: todoTask, index: index);
             }
           );
           // ref.watch(todoMangerNotifierProvider.notifier).state = 

@@ -16,8 +16,7 @@ class TodoMangerNotifier extends _$TodoMangerNotifier {
    */
   @override
   FutureOr<TodoManager> build() async { 
-    TodoManager initTodoManger = TodoManager(todoTaskList: []);
-    return TodoManager(
+    TodoManager initTodoManger = TodoManager(
       todoTaskList: [
         TodoTask(
           id: Uuid.NAMESPACE_URL, 
@@ -31,8 +30,9 @@ class TodoMangerNotifier extends _$TodoMangerNotifier {
           createdDateTime: DateTime.now(), 
           updatedDateTime: DateTime.now()
         ),
-      ],
+      ]
     );
+    return initTodoManger;
   }
 
   /**
@@ -40,42 +40,31 @@ class TodoMangerNotifier extends _$TodoMangerNotifier {
    * 主にタスクの追加・更新・削除等を行い、その変更分を逐次、端末保存で記録します。
    */
 
-  void updateTodoTaskList(List<TodoTask> todoTaskList) async {
-
-  }
-}
-
-@riverpod
-class TodoTaskListNotifier extends _$TodoTaskListNotifier {
-
-  @override
-  FutureOr<List<TodoTask>> build() async {
-    // return [];
-    TodoManager todoManager = await ref.watch(todoMangerNotifierProvider.future);
-    return todoManager.todoTaskList;
+  void addTask(TodoTask todoTask) async {
+    TodoManager tmpTodoManager = state.value!;
+    List<TodoTask> tmpTodoTaskList = tmpTodoManager.todoTaskList;
+    tmpTodoTaskList.add(todoTask);
+    tmpTodoManager.copyWith(todoTaskList: tmpTodoTaskList);
+    state = AsyncValue.data(tmpTodoManager);
   }
 
-  void addTask(TodoTask task) async {
-
+  void updateTask(TodoTask todoTask, int index) async {
+    TodoManager tmpTodoManager = state.value!;
+    List<TodoTask> tmpTodoTaskList = tmpTodoManager.todoTaskList;
+    tmpTodoTaskList[index] = todoTask;
+    tmpTodoManager.copyWith(todoTaskList: tmpTodoTaskList);
+    state = AsyncValue.data(tmpTodoManager);
   }
 
-  void updateTask(TodoTask task, int index) async {
-
-  }
-
-  void deleteTask(List<int> indexList) async {
-
-  }
-
-  void sortByDateTimeAscending() {
-
-  }
-
-  void sortByDateTimeDescengding() {
-
-  }
-
-  void saveTaskList() async {
-    ref.watch(todoMangerNotifierProvider.notifier).updateTodoTaskList([]);
+  void deleteTask(int index) async {
+    TodoManager tmpTodoManager = state.value!;
+    List<TodoTask> tmpTodoTaskList = [];
+    int i = 0;
+    for (TodoTask todoTask in tmpTodoManager.todoTaskList) {
+      if (i != index) tmpTodoTaskList.add(todoTask);
+      i++;
+    }
+    tmpTodoManager.copyWith(todoTaskList: tmpTodoTaskList);
+    state = AsyncValue.data(tmpTodoManager);
   }
 }
