@@ -27,7 +27,7 @@ class AddTodoTaskDialog extends HookConsumerWidget {
         ElevatedButton(
           child: const Text("OK"),
           onPressed: () { 
-            ref.watch(todoMangerNotifierProvider.notifier).addTask(todoTask);
+            ref.watch(todoMangerNotifierProvider.notifier).addTask2(todoTask);
             context.go("/");
           }
         ),

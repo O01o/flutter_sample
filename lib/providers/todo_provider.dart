@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:flutter_sample/freezed_entities/todo_object.dart';
 import 'package:flutter_sample/utils/device_io.dart';
+import 'package:flutter_sample/freezed_entities/todo_object.dart';
+import 'package:flutter_sample/repositories/todo_repository.dart';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter/foundation.dart';
@@ -22,37 +23,52 @@ class TodoMangerNotifier extends _$TodoMangerNotifier {
   
   @override
   FutureOr<TodoManager> build() async { 
-    TodoManager altTodoManger = TodoManager(
-      todoTaskList: [
-        TodoTask(
-          id: Uuid.NAMESPACE_URL, 
-          content: "初めてのメモ", 
-          createdDateTime: DateTime.now(), 
-          updatedDateTime: DateTime.now()
-        ),
-        TodoTask(
-          id: Uuid.NAMESPACE_URL, 
-          content: "二回目のメモ", 
-          createdDateTime: DateTime.now(), 
-          updatedDateTime: DateTime.now()
-        ),
-      ]
-    );
-
     try {
-      TodoManager todoManager = TodoManager.fromJson(jsonDecode(await readSaveData(savePath)));
-      return todoManager;
+      return TodoManager.fromJson(jsonDecode(await readSaveData(savePath)));
     } catch (e) {
-      print(e);
+      return TodoManager(
+      todoTaskList: [
+          TodoTask(
+            id: Uuid.NAMESPACE_URL, 
+            content: "初めてのメモ", 
+            createdDateTime: DateTime.now(), 
+            updatedDateTime: DateTime.now()
+          ),
+          TodoTask(
+            id: Uuid.NAMESPACE_URL, 
+            content: "二回目のメモ", 
+            createdDateTime: DateTime.now(), 
+            updatedDateTime: DateTime.now()
+          ),
+        ]
+      );
     }
-
-    return altTodoManger;
   }
 
   /**
    * ここが制御部分になります。これらの関数が呼び出された時に、TodoManagerのデータに変更が起こります。
    * 主にタスクの追加・更新・削除等を行い、その変更分を逐次、端末保存で記録します。
+   * add, update, deleteで共通したコード(手続き処理, アルゴリズム)は
+   * todo_repositoryに投げて、そこからの各ユースケースはここで書いています。
    */
+
+  void addTask2(TodoTask todoTask) async {
+    state = AsyncValue.data(await todoTaskListUpdateAndSave(state.value!, savePath, (todoTaskList) {
+      todoTaskList.add(todoTask);
+    }));
+  }
+
+  void updateTask2(TodoTask todoTask, int index) async {
+    state = AsyncValue.data(await todoTaskListUpdateAndSave(state.value!, savePath, (todoTaskList) {
+      todoTaskList[index] = todoTask;
+    }));
+  }
+
+  void deleteTask2(int index) async {
+    state = AsyncValue.data(await todoTaskListUpdateAndSave(state.value!, savePath, (todoTaskList) {
+      todoTaskList.removeAt(index);
+    }));
+  }
 
   void addTask(TodoTask todoTask) async {
     TodoManager tmpTodoManager = state.value!;

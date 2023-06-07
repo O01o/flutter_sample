@@ -7,9 +7,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_sample/freezed_entities/todo_object.dart';
 import 'package:path_provider/path_provider.dart';
 
-Future<String> readSaveData(String filePath) async {
+Future<String> readSaveData(String savePath) async {
   Directory rootDirectory = await getApplicationDocumentsDirectory();
-  String path = "${rootDirectory.path}/$filePath";
+  String path = "${rootDirectory.path}/$savePath";
   var file = File(path);
   if (!await file.exists()) {
     await file.writeAsString("{}");

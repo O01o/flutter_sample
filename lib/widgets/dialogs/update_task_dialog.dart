@@ -29,7 +29,6 @@ class UpdateTodoTaskDialog extends HookConsumerWidget {
           child: const Text("OK"),
           onPressed: () { 
             ref.watch(todoMangerNotifierProvider.notifier).updateTask(todoTask, index);
-            context.pop();
             context.go("/");
           }
         ),
