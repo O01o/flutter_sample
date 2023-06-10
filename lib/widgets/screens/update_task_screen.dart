@@ -16,7 +16,7 @@ class UpdateTaskScreen extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
 
-    TextEditingController controller = TextEditingController();
+    TextEditingController controller = TextEditingController(text: todoTask.content);
 
     return Scaffold(
       appBar: AppBar(title: const Text("Update Task Screen")),
@@ -34,11 +34,9 @@ class UpdateTaskScreen extends HookConsumerWidget {
                     child: const Text("OK"),
                     onPressed: () {
                       showDialog(context: context, builder: (_) {
-                        return AddTodoTaskDialog(
-                          todoTask: TodoTask(
-                            id: const Uuid().v4(), 
-                            content: controller.text, 
-                            createdDateTime: DateTime.now(), 
+                        return UpdateTodoTaskDialog(
+                          todoTask: todoTask.copyWith(
+                            content: controller.text,
                             updatedDateTime: DateTime.now()
                           )
                         );
