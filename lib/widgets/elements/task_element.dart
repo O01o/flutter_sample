@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_sample/widgets/screens/router.dart';
 
 import 'package:flutter_sample/freezed_entities/todo_object.dart';
 
@@ -28,19 +29,20 @@ class TodoTaskElement extends HookConsumerWidget {
       child: InkWell(
         child: Card(
           child: ListTile(
+            title: Text(todoTask.id),
             subtitle: Text(todoTask.content),
           ),
         ),
         onTap: () {
-          context.push('/edit');
+          print(todoTask);
+          context.pushNamed('/update-task', queryParameters: {'todo-task': todoTask});
         },
         onLongPress: () {
           showDialog(
             context: context, builder: (_) {
-              return DeleteTodoTaskDialog(todoTask: todoTask, index: index);
+              return DeleteTodoTaskDialog(todoTask: todoTask);
             }
           );
-          // ref.watch(todoMangerNotifierProvider.notifier).state = 
         },
       )
     );

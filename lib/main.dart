@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'widgets/router.dart';
+import 'widgets/screens/router.dart';
 
 void main() {
   runApp(

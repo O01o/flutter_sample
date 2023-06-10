@@ -49,7 +49,8 @@ class TopScreen extends HookConsumerWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
-          context.push('/edit');
+          context.push('/add-task');
+          // ref.watch(todoMangerNotifierProvider.notifier).addTask2(TodoTask(id: Uuid.NAMESPACE_URL, content: "あいうえお", createdDateTime: DateTime.now(), updatedDateTime: DateTime.now()));
         }
       ),
     );

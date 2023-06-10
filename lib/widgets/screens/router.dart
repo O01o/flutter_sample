@@ -1,5 +1,6 @@
+import 'package:flutter_sample/freezed_entities/todo_object.dart';
 import 'package:go_router/go_router.dart';
-import 'screens/all_screens.dart';
+import 'all_screens.dart';
 
 /**
  * ここが画面遷移のルートを定義する場所となります。
@@ -16,8 +17,12 @@ final router = GoRouter(
       builder: (context, state) => const TopScreen(), 
     ),
     GoRoute(
-      path: '/edit',
-      builder: (context, state) => const EditTaskScreen(),
+      path: '/add-task',
+      builder: (context, state) => const AddTaskScreen(),
+    ),
+    GoRoute(
+      path: '/update-task',
+      builder: (context, state) => UpdateTaskScreen(todoTask: state.queryParameters['todo-task'] as TodoTask),
     ),
     GoRoute(
       path: '/setting',

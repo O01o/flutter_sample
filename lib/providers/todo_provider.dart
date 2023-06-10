@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-import 'package:flutter_sample/utils/device_io.dart';
+import 'package:flutter_sample/device/file_io.dart';
 import 'package:flutter_sample/freezed_entities/todo_object.dart';
 import 'package:flutter_sample/repositories/todo_repository.dart';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:flutter/foundation.dart';
 import 'package:uuid/uuid.dart';
 
 part 'todo_provider.g.dart';
@@ -29,13 +28,13 @@ class TodoMangerNotifier extends _$TodoMangerNotifier {
       return TodoManager(
       todoTaskList: [
           TodoTask(
-            id: Uuid.NAMESPACE_URL, 
+            id: const Uuid().v4(), 
             content: "初めてのメモ", 
             createdDateTime: DateTime.now(), 
             updatedDateTime: DateTime.now()
           ),
           TodoTask(
-            id: Uuid.NAMESPACE_URL, 
+            id: const Uuid().v4(), 
             content: "二回目のメモ", 
             createdDateTime: DateTime.now(), 
             updatedDateTime: DateTime.now()
@@ -52,31 +51,53 @@ class TodoMangerNotifier extends _$TodoMangerNotifier {
    * todo_repositoryに投げて、そこからの各ユースケースはここで書いています。
    */
 
+  TodoTask? searchTaskFromId(String id) {
+    for (TodoTask todoTask in state.value!.todoTaskList) {
+      if (todoTask.id == id) return todoTask;
+    }
+    return null;
+  }
+
   void addTask2(TodoTask todoTask) async {
     state = AsyncValue.data(await todoTaskListUpdateAndSave(state.value!, savePath, (todoTaskList) {
-      todoTaskList.add(todoTask);
+      // don't use todoTaskList.add(todoTask);
+      return [...todoTaskList, todoTask];
     }));
   }
 
-  void updateTask2(TodoTask todoTask, int index) async {
+  void updateTask2(TodoTask updatedTodoTask) async {
     state = AsyncValue.data(await todoTaskListUpdateAndSave(state.value!, savePath, (todoTaskList) {
-      todoTaskList[index] = todoTask;
+      return [
+        for (TodoTask todoTask in todoTaskList)
+          if (todoTask.id == updatedTodoTask.id) updatedTodoTask
+          else todoTask
+      ];
     }));
   }
 
-  void deleteTask2(int index) async {
+  void deleteTask2(String id) async {
     state = AsyncValue.data(await todoTaskListUpdateAndSave(state.value!, savePath, (todoTaskList) {
-      todoTaskList.removeAt(index);
+      return [
+        for (TodoTask todoTask in todoTaskList)
+          if (todoTask.id != id) todoTask,
+      ];
     }));
   }
 
   void addTask(TodoTask todoTask) async {
     TodoManager tmpTodoManager = state.value!;
     List<TodoTask> tmpTodoTaskList = tmpTodoManager.todoTaskList;
-    tmpTodoTaskList.add(todoTask);
-    tmpTodoManager.copyWith(todoTaskList: tmpTodoTaskList);
+    tmpTodoTaskList = [...tmpTodoTaskList, todoTask];
+    TodoManager updatedTodoManger = tmpTodoManager.copyWith(todoTaskList: [...tmpTodoTaskList]);
     await writeSaveData(savePath, jsonEncode(tmpTodoManager.toJson()));
-    state = AsyncValue.data(tmpTodoManager);
+    for (TodoTask todoTask in tmpTodoTaskList) {
+      print(todoTask.content);
+    }
+    for (TodoTask todoTask in updatedTodoManger.todoTaskList) {
+      print(todoTask.content);
+    }
+    print("");
+    state = AsyncValue.data(updatedTodoManger);
   }
 
   void updateTask(TodoTask todoTask, int index) async {

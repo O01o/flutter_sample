@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_sample/freezed_entities/todo_object.dart';
-import 'package:flutter_sample/utils/device_io.dart';
+import 'package:flutter_sample/device/file_io.dart';
 
 /**
  * entities層で定義した構造をproviders層で実行するのですが、
@@ -11,9 +11,16 @@ import 'package:flutter_sample/utils/device_io.dart';
  * とにかく、関心領域を分離させて各々のコードをスッキリさせることが目的です。
  */
 
-Future<TodoManager> todoTaskListUpdateAndSave(TodoManager todoManager, String savePath, Function(List<TodoTask>) callback) async {
-  callback(todoManager.todoTaskList);
-  todoManager.copyWith(todoTaskList: todoManager.todoTaskList);
+Future<TodoManager> todoTaskListUpdateAndSave(TodoManager todoManager, String savePath, List<TodoTask> Function(List<TodoTask>) callback) async {
+  List<TodoTask> todoTaskList = callback(todoManager.todoTaskList);
+  TodoManager upadtedTodoManager = todoManager.copyWith(todoTaskList: [...todoTaskList]);
   await writeSaveData(savePath, jsonEncode(todoManager.toJson()));
-  return todoManager;
+  for (TodoTask todoTask in todoTaskList) {
+    print(todoTask.content);
+  }
+  for (TodoTask todoTask in upadtedTodoManager.todoTaskList) {
+    print(todoTask.content);
+  }
+  print("");
+  return upadtedTodoManager;
 }

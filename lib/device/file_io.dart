@@ -12,7 +12,7 @@ Future<String> readSaveData(String savePath) async {
   String path = "${rootDirectory.path}/$savePath";
   var file = File(path);
   if (!await file.exists()) {
-    await file.writeAsString("{}");
+    await file.writeAsString("");
   }
   return rootBundle.loadString(path);
 }
