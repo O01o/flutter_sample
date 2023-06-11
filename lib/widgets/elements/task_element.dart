@@ -7,6 +7,9 @@ import 'package:flutter_sample/widgets/screens/router.dart';
 
 import 'package:flutter_sample/freezed_entities/todo_object.dart';
 
+import 'dart:io';
+import 'dart:convert';
+
 // import 'package:flutter_sample/providers/todo_provider.dart';
 import 'package:flutter_sample/widgets/dialogs/delete_task_dialog.dart';
 
@@ -33,10 +36,12 @@ class TodoTaskElement extends HookConsumerWidget {
             subtitle: Text(todoTask.content),
           ),
         ),
+        // doesn't work 
+        /*
         onTap: () {
-          print(todoTask);
-          context.pushNamed('/update-task', queryParameters: {'todo-task': todoTask});
+          context.pushNamed('/update-task', queryParameters: {'todo-task': json.encode(todoTask.toJson())});
         },
+        */
         onLongPress: () {
           showDialog(
             context: context, builder: (_) {

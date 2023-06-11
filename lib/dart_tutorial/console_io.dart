@@ -1,15 +1,14 @@
 import 'dart:io';
 
-
-String name = "Matsui Ayato";
-
 void main(List<String> args) {
   for (String arg in args) {
     print(arg);
   }
 
   print("Hello World");
-  print("My name is $name");
+  stdout.write("please tell me your name: ");
+  String? name = stdin.readLineSync();
+  print("Your name is $name");
 
   return;
 }

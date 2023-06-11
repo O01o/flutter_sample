@@ -23,8 +23,10 @@ class TodoMangerNotifier extends _$TodoMangerNotifier {
   @override
   FutureOr<TodoManager> build() async { 
     try {
-      return TodoManager.fromJson(jsonDecode(await readSaveData(savePath)));
+      return TodoManager.fromJson(json.decode(await readSaveData(savePath)));
     } catch (e) {
+      print("error code");
+      print(e);
       return TodoManager(
       todoTaskList: [
           TodoTask(

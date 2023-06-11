@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_sample/freezed_entities/todo_object.dart';
 import 'package:go_router/go_router.dart';
 import 'all_screens.dart';
@@ -22,11 +23,18 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/update-task',
-      builder: (context, state) => UpdateTaskScreen(todoTask: state.queryParameters['todo-task'] as TodoTask),
+      builder: (context, state) => UpdateTaskScreen(todoTaskJson: state.queryParameters['todo-task']),
     ),
     GoRoute(
       path: '/setting',
       builder: (context, state) => const SettingsScreen(),
     )
-  ]
+  ],
+  errorBuilder: (context, state) {
+    return Scaffold(
+      body: Center(
+        child: Text('Unknown route: ${state.location}'),
+      ),
+    );
+  }
 );

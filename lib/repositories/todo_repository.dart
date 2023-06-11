@@ -14,7 +14,7 @@ import 'package:flutter_sample/device/file_io.dart';
 Future<TodoManager> todoTaskListUpdateAndSave(TodoManager todoManager, String savePath, List<TodoTask> Function(List<TodoTask>) callback) async {
   List<TodoTask> todoTaskList = callback(todoManager.todoTaskList);
   TodoManager upadtedTodoManager = todoManager.copyWith(todoTaskList: [...todoTaskList]);
-  await writeSaveData(savePath, jsonEncode(todoManager.toJson()));
+  await writeSaveData(savePath, json.encode(upadtedTodoManager.toJson()));
   for (TodoTask todoTask in todoTaskList) {
     print(todoTask.content);
   }
