@@ -30,7 +30,7 @@ class UpdateTodoTaskDialog extends HookConsumerWidget {
           ElevatedButton(
             child: const Text("OK"),
             onPressed: () { 
-              ref.watch(todoMangerNotifierProvider.notifier).updateTask2(todoTask);
+              ref.watch(todoMangerNotifierProvider.notifier).updateTask(todoTask);
               context.go("/");
             }
           ),

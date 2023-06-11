@@ -60,14 +60,14 @@ class TodoMangerNotifier extends _$TodoMangerNotifier {
     return null;
   }
 
-  void addTask2(TodoTask todoTask) async {
+  void addTask(TodoTask todoTask) async {
     state = AsyncValue.data(await todoTaskListUpdateAndSave(state.value!, savePath, (todoTaskList) {
       // don't use todoTaskList.add(todoTask);
       return [...todoTaskList, todoTask];
     }));
   }
 
-  void updateTask2(TodoTask updatedTodoTask) async {
+  void updateTask(TodoTask updatedTodoTask) async {
     state = AsyncValue.data(await todoTaskListUpdateAndSave(state.value!, savePath, (todoTaskList) {
       return [
         for (TodoTask todoTask in todoTaskList)
@@ -77,50 +77,12 @@ class TodoMangerNotifier extends _$TodoMangerNotifier {
     }));
   }
 
-  void deleteTask2(String id) async {
+  void deleteTask(String id) async {
     state = AsyncValue.data(await todoTaskListUpdateAndSave(state.value!, savePath, (todoTaskList) {
       return [
         for (TodoTask todoTask in todoTaskList)
           if (todoTask.id != id) todoTask,
       ];
     }));
-  }
-
-  void addTask(TodoTask todoTask) async {
-    TodoManager tmpTodoManager = state.value!;
-    List<TodoTask> tmpTodoTaskList = tmpTodoManager.todoTaskList;
-    tmpTodoTaskList = [...tmpTodoTaskList, todoTask];
-    TodoManager updatedTodoManger = tmpTodoManager.copyWith(todoTaskList: [...tmpTodoTaskList]);
-    await writeSaveData(savePath, jsonEncode(tmpTodoManager.toJson()));
-    for (TodoTask todoTask in tmpTodoTaskList) {
-      print(todoTask.content);
-    }
-    for (TodoTask todoTask in updatedTodoManger.todoTaskList) {
-      print(todoTask.content);
-    }
-    print("");
-    state = AsyncValue.data(updatedTodoManger);
-  }
-
-  void updateTask(TodoTask todoTask, int index) async {
-    TodoManager tmpTodoManager = state.value!;
-    List<TodoTask> tmpTodoTaskList = tmpTodoManager.todoTaskList;
-    tmpTodoTaskList[index] = todoTask;
-    tmpTodoManager.copyWith(todoTaskList: tmpTodoTaskList);
-    await writeSaveData(savePath, jsonEncode(tmpTodoManager.toJson()));
-    state = AsyncValue.data(tmpTodoManager);
-  }
-
-  void deleteTask(int index) async {
-    TodoManager tmpTodoManager = state.value!;
-    List<TodoTask> tmpTodoTaskList = [];
-    int i = 0;
-    for (TodoTask todoTask in tmpTodoManager.todoTaskList) {
-      if (i != index) tmpTodoTaskList.add(todoTask);
-      i++;
-    }
-    tmpTodoManager.copyWith(todoTaskList: tmpTodoTaskList);
-    await writeSaveData(savePath, jsonEncode(tmpTodoManager.toJson()));
-    state = AsyncValue.data(tmpTodoManager);
   }
 }

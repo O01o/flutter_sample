@@ -26,7 +26,7 @@ class DeleteTodoTaskDialog extends HookConsumerWidget {
         ElevatedButton(
           child: const Text("OK"),
           onPressed: () { 
-            ref.watch(todoMangerNotifierProvider.notifier).deleteTask2(todoTask.id);
+            ref.watch(todoMangerNotifierProvider.notifier).deleteTask(todoTask.id);
             context.pop();
           }
         ),
