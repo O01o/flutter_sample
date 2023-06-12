@@ -26,7 +26,6 @@ class TopScreen extends HookConsumerWidget {
                       delegate: SliverChildBuilderDelegate(
                         (context, index) => TodoTaskElement(
                           todoTask: snapshot.data!.todoTaskList[index], 
-                          index: index
                         ),
                         childCount: snapshot.data!.todoTaskList.length,
                       ),
@@ -50,7 +49,6 @@ class TopScreen extends HookConsumerWidget {
         child: const Icon(Icons.add),
         onPressed: () {
           context.push('/add-task');
-          // ref.watch(todoMangerNotifierProvider.notifier).addTask2(TodoTask(id: Uuid.NAMESPACE_URL, content: "あいうえお", createdDateTime: DateTime.now(), updatedDateTime: DateTime.now()));
         }
       ),
     );

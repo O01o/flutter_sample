@@ -14,10 +14,9 @@ import 'dart:convert';
 import 'package:flutter_sample/widgets/dialogs/delete_task_dialog.dart';
 
 class TodoTaskElement extends HookConsumerWidget {
-  const TodoTaskElement({Key? key, required this.todoTask, required this.index}) : super(key: key);
+  const TodoTaskElement({Key? key, required this.todoTask}) : super(key: key);
 
   final TodoTask todoTask;
-  final int index;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -36,10 +35,10 @@ class TodoTaskElement extends HookConsumerWidget {
             subtitle: Text(todoTask.content),
           ),
         ),
-        // doesn't work 
         /*
+        // doesn't work 
         onTap: () {
-          context.pushNamed('/update-task', queryParameters: {'todo-task': json.encode(todoTask.toJson())});
+          context.pushReplacementNamed('/update-task', pathParameters: {'todo-task-json': json.encode(todoTask.toJson())});
         },
         */
         onLongPress: () {

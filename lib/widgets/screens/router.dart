@@ -23,7 +23,7 @@ final router = GoRouter(
     ),
     GoRoute(
       path: '/update-task',
-      builder: (context, state) => UpdateTaskScreen(todoTaskJson: state.queryParameters['todo-task']),
+      builder: (context, state) => UpdateTaskScreen(todoTaskJson: state.pathParameters['todo-task-json']),
     ),
     GoRoute(
       path: '/setting',
