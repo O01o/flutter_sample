@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_sample/freezed_entities/todo_object.dart';
+import 'package:flutter_sample/entities/freezed/todo_object.dart';
 import 'package:go_router/go_router.dart';
 import 'all_screens.dart';
 

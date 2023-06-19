@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_sample/providers/todo_provider.dart';
+import 'package:flutter_sample/business_logic/providers/todo_provider.dart';
 import 'package:flutter_sample/widgets/dialogs/add_task_dialog.dart';
 import 'package:flutter_sample/widgets/dialogs/update_task_dialog.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -9,7 +9,7 @@ import 'package:uuid/uuid.dart';
 import 'dart:io';
 import 'dart:convert';
 
-import 'package:flutter_sample/freezed_entities/todo_object.dart';
+import 'package:flutter_sample/entities/freezed/todo_object.dart';
 // import 'package:flutter_sample/providers/todo_provider.dart';
 
 class UpdateTaskScreen extends HookConsumerWidget {

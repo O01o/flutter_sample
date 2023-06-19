@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter_sample/freezed_entities/todo_object.dart';
-import 'package:flutter_sample/device/file_io.dart';
+import 'package:flutter_sample/entities/freezed/todo_object.dart';
+import 'package:flutter_sample/infrastructure/device/file_io.dart';
 
 /**
  * entities層で定義した構造をproviders層で実行するのですが、

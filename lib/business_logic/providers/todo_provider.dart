@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:flutter_sample/device/file_io.dart';
-import 'package:flutter_sample/freezed_entities/todo_object.dart';
-import 'package:flutter_sample/repositories/todo_repository.dart';
+import 'package:flutter_sample/infrastructure/device/file_io.dart';
+import 'package:flutter_sample/entities/freezed/todo_object.dart';
+import 'package:flutter_sample/business_logic/repositories/todo_repository.dart';
 
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:uuid/uuid.dart';

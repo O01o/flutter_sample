@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:flutter_sample/freezed_entities/todo_object.dart';
-
-import 'package:flutter_sample/providers/todo_provider.dart';
+import 'package:flutter_sample/entities/freezed/todo_object.dart'; 
+import 'package:flutter_sample/business_logic/providers/todo_provider.dart';
 
 class DeleteTodoTaskDialog extends HookConsumerWidget {
   const DeleteTodoTaskDialog({Key? key, required this.todoTask}) : super(key: key);
