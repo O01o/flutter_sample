@@ -24,3 +24,31 @@ Future<TodoManager> todoTaskListUpdateAndSave(TodoManager todoManager, String sa
   print("");
   return upadtedTodoManager;
 }
+
+Future<TodoManager> addTaskLocal(TodoManager todoManager, String savePath, TodoTask todoTask) async {
+  return await todoTaskListUpdateAndSave(todoManager, savePath, (todoTaskList) {
+    // don't use todoTaskList.add(todoTask);
+    return [...todoTaskList, todoTask];
+  });
+}
+
+Future<TodoManager> updateTaskLocal(TodoManager todoManager, String savePath, TodoTask updatedTodoTask) async {
+  return await todoTaskListUpdateAndSave(todoManager, savePath, (todoTaskList) {
+    // don't use todoTaskList.add(todoTask);
+    return [
+      for (TodoTask todoTask in todoTaskList)
+        if (todoTask.id == updatedTodoTask.id) updatedTodoTask
+        else todoTask
+    ];
+  });
+}
+
+Future<TodoManager> deleteTaskLocal(TodoManager todoManager, String savePath, String id) async {
+  return await todoTaskListUpdateAndSave(todoManager, savePath, (todoTaskList) {
+    // don't use todoTaskList.add(todoTask);
+    return [
+      for (TodoTask todoTask in todoTaskList)
+        if (todoTask.id != id) todoTask,
+    ];
+  });
+}

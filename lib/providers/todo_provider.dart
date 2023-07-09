@@ -61,28 +61,14 @@ class TodoMangerNotifier extends _$TodoMangerNotifier {
   }
 
   void addTask(TodoTask todoTask) async {
-    state = AsyncValue.data(await todoTaskListUpdateAndSave(state.value!, savePath, (todoTaskList) {
-      // don't use todoTaskList.add(todoTask);
-      return [...todoTaskList, todoTask];
-    }));
+    state = AsyncValue.data(await addTaskLocal(state.value!, savePath, todoTask));
   }
 
-  void updateTask(TodoTask updatedTodoTask) async {
-    state = AsyncValue.data(await todoTaskListUpdateAndSave(state.value!, savePath, (todoTaskList) {
-      return [
-        for (TodoTask todoTask in todoTaskList)
-          if (todoTask.id == updatedTodoTask.id) updatedTodoTask
-          else todoTask
-      ];
-    }));
+  void updateTask(TodoTask todoTask) async {
+    state = AsyncValue.data(await updateTaskLocal(state.value!, savePath, todoTask));
   }
 
   void deleteTask(String id) async {
-    state = AsyncValue.data(await todoTaskListUpdateAndSave(state.value!, savePath, (todoTaskList) {
-      return [
-        for (TodoTask todoTask in todoTaskList)
-          if (todoTask.id != id) todoTask,
-      ];
-    }));
+    state = AsyncValue.data(await deleteTaskLocal(state.value!, savePath, id));
   }
 }
