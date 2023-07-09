@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:flutter_sample/business_logic/providers/todo_provider.dart';
+import 'package:flutter_sample/providers/todo_provider.dart';
 import 'package:flutter_sample/widgets/elements/task_element.dart';
 
 class TopScreen extends HookConsumerWidget {
