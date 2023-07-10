@@ -61,14 +61,14 @@ class TodoMangerNotifier extends _$TodoMangerNotifier {
   }
 
   void addTask(TodoTask todoTask) async {
-    state = AsyncValue.data(await addTaskLocal(state.value!, savePath, todoTask));
+    state = AsyncValue.data(await TodoTaskListRepository.add(state.value!, savePath, todoTask));
   }
 
   void updateTask(TodoTask todoTask) async {
-    state = AsyncValue.data(await updateTaskLocal(state.value!, savePath, todoTask));
+    state = AsyncValue.data(await TodoTaskListRepository.update(state.value!, savePath, todoTask));
   }
 
   void deleteTask(String id) async {
-    state = AsyncValue.data(await deleteTaskLocal(state.value!, savePath, id));
+    state = AsyncValue.data(await TodoTaskListRepository.delete(state.value!, savePath, id));
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:flutter_sample/providers/todo_provider.dart';
+import 'package:flutter_sample/use_cases/todo_provider.dart';
 import 'package:flutter_sample/widgets/dialogs/add_task_dialog.dart';
 import 'package:flutter_sample/widgets/dialogs/update_task_dialog.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
